@@ -24,7 +24,7 @@ body {
 
 form {
     background-color: white;
-    max-width: 40%;
+    max-width: 33%;
     margin: 0 auto;
     margin-top: 5%;
     padding: 3em;
@@ -32,16 +32,19 @@ form {
 }
 
 fieldset {
-    padding: 3em;
+    padding: 2em;
+    margin: 0 auto;
     border-radius: 0.7em;
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
 }
 
 .wrapper {
     display: flex;
-    gap: 1em;
+    gap: 0.5em;
     flex-direction: column;
     justify-content: center;
 }
@@ -56,10 +59,10 @@ fieldset {
 
 }
 
-.wrapper .input-wrapper:last-child {
+/* .wrapper .input-wrapper:last-child {
     flex-direction: row;
 
-}
+} */
 
 .wrapper input {
     padding: 0.5em;
@@ -69,7 +72,7 @@ fieldset {
 
 #submit {
     max-width: 40%;
-    align-self: flex-end;
+    /* align-self: center; */
     padding: 0.5em 1em;
 }
 
@@ -81,9 +84,10 @@ fieldset {
     }
 }
 
-element.style {
-    flex-direction: row;
-    /* justify-content: space-between; */
+output{
+    color: red;
+    text-align: center;
+    font-size: 0.7em;
 }
 
 
