@@ -1,0 +1,98 @@
+@import url(https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font: 16px/1.5 "Kode Mono", sans-serife;
+}
+
+body,
+input,
+button,
+textarea {
+    font: inherit;
+}
+
+body {
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgb(215, 195, 195) 0%, rgb(117, 89, 118) 35%, rgb(185, 101, 234) 100%);
+}
+
+form {
+    background-color: white;
+    max-width: 40%;
+    margin: 0 auto;
+    margin-top: 5%;
+    padding: 3em;
+    border-radius: 1em;
+}
+
+fieldset {
+    padding: 3em;
+    border-radius: 0.7em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.wrapper {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wrapper .input-wrapper {
+    /* border: 1px solid black; */
+    padding: 1.5em;
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+}
+
+.wrapper .input-wrapper:last-child {
+    flex-direction: row;
+
+}
+
+.wrapper input {
+    padding: 0.5em;
+
+}
+
+
+#submit {
+    max-width: 40%;
+    align-self: flex-end;
+    padding: 0.5em 1em;
+}
+
+@media (max-width: 990px) {
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+}
+
+element.style {
+    flex-direction: row;
+    /* justify-content: space-between; */
+}
+
+
+h1 {
+    background-color: white;
+    padding: 1em;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 50%;
+    margin-top: 10%;
+    border-radius: 1em;
+}
