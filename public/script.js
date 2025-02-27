@@ -4,6 +4,8 @@ form.addEventListener('submit', onSubmit)
 
 async function onSubmit(e) {
     e.preventDefault();
+    const output = form.elements["error"];
+    output.value = ''
 
     const dataFromForm = new FormData(e.target);
     const { email, dataCheckbox } = Object.fromEntries(dataFromForm);
@@ -20,16 +22,17 @@ async function onSubmit(e) {
             }
 
             const response = await fetch(`${url}/newsletter-anmeldung`, options)
-            
-            if(response.status !== 200){
+
+            if (response.status !== 200) {
                 const error = await response.json()
                 throw new Error(JSON.stringify(error.error))
 
             }
             const data = await response.json()
-            console.log(data)
 
-            // window.location.href
+            const redirect =  Object.values(data)
+
+            window.location.href = redirect
 
         }
     } catch (error) {
