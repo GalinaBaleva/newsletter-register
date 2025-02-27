@@ -23,12 +23,17 @@ function checkRegex(email) {
     return ok
 }
 
-async function checkMX() {
-    const mxRecords = await dns.resolveMx("gmx.at")
-    console.log(mxRecords)
+async function checkMX(email) {
+    const emailDns = email.split('@')[1];
+    try {
+        const mxRecords = await dns.resolveMx(emailDns)
+        return mxRecords.length > 0
+    } catch (error) {
+        return false
+    }
 }
 
-async function sendEmail() {
+async function sendEmail(mail) {
 
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -39,7 +44,7 @@ async function sendEmail() {
 
     const mailOptions = {
         from: SENDER_EMAIL,
-        to: 'heer.raab@gmx.at',
+        to: mail,
         subject: 'Sending Email using Node.js',
         text: 'That was easy! Also using environment variables.',
     }
@@ -51,11 +56,13 @@ async function sendEmail() {
     }
     catch (err) {
         console.error(err)
+        return false
     }
 }
 
-function appendToFile() {
-    const newline = ['Max Mustermann', 'max@gmx.at'].join(',') + '\n'
+function appendToFile(email) {
+    const name = email.split('@')[0];
+    const newline = [name, email].join(',') + '\n'
     writeFileSync('emails.csv', newline, { flag: 'as' })
 }
 
@@ -76,29 +83,51 @@ const server = createServer(async (req, res) => {
             return JSON.stringify({ "error": 'Fehler bei der Anmeldung!' });
         }
 
-    } else if(req.method === 'POST' && req.url === '/newsletter-anmeldung'){
-            
+    } else if (req.method === 'POST' && req.url === '/newsletter-anmeldung') {
+
         try {
-            const {email, dataCheckbox} = await json(req)
-            if(!email, !dataCheckbox){
-                res.writeHead(400, {'content-type': 'application/json'})
-                res.write(JSON.stringify({error: 'Bitte E-Mail und Zustimmung zur Datenschutzrichtlinie angeben.'}))
+            const { email, dataCheckbox } = await json(req)
+            if (!email, !dataCheckbox) {
+                res.writeHead(400, { 'content-type': 'application/json' })
+                res.write(JSON.stringify({ error: 'Bitte E-Mail und Zustimmung zur Datenschutzrichtlinie angeben.' }))
                 res.end()
+                return
             }
 
-            if(!checkRegex(email)){
-                res.writeHead(400, { 'content-type': 'application/json'})
-                res.write(JSON.stringify({error: 'Ungültige E-Mail-Adresse!'}))
+            if (!checkRegex(email)) {
+                res.writeHead(400, { 'content-type': 'application/json' })
+                res.write(JSON.stringify({ error: 'Ungültige E-Mail-Adresse!' }))
                 res.end()
+                return
             }
 
-            checkRegex(email)
-            
+            if (!await checkMX(email)) {
+                res.writeHead(400, { 'content-type': 'application/json' })
+                res.write(JSON.stringify({ error: 'Die angegebene E-Mail-Adresse existiert nicht.' }))
+                res.end()
+                return
+            }
+
+            if (!await sendEmail(email)) {
+                res.writeHead(400, { 'content-type': 'application/json' })
+                res.write(JSON.stringify({ error: 'Die angegebene E-Mail-Adresse existiert nicht.' }))
+                res.end()
+                return
+            }
+
+            appendToFile(email)
+
+            res.writeHead(200, {
+                'content-type': 'application/json',
+            })
+
+            res.end(JSON.stringify({ redirect: '/newsletter-anmeldung' }))
+
         } catch (error) {
-
+            res.writeHead(500, { 'content-type': 'application/json' })
+            res.write(JSON.stringify({ error: 'Serverfehler, bitte später erneut versuchen.' }))
+            res.end()
         }
-
-        
 
     } else {
         serveFile(req, res, finalhandler(req, res))
