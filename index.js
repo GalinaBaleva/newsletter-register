@@ -108,12 +108,12 @@ const server = createServer(async (req, res) => {
                 return
             }
 
-            if (!await sendEmail(email)) {
-                res.writeHead(400, { 'content-type': 'application/json' })
-                res.write(JSON.stringify({ error: 'Die angegebene E-Mail-Adresse existiert nicht.' }))
-                res.end()
-                return
-            }
+            // if (!await sendEmail(email)) {
+            //     res.writeHead(400, { 'content-type': 'application/json' })
+            //     res.write(JSON.stringify({ error: 'Die angegebene E-Mail-Adresse existiert nicht.' }))
+            //     res.end()
+            //     return
+            // }
 
             appendToFile(email)
 
