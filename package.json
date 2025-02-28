@@ -6,6 +6,7 @@
         "nodemailer": "^6.9.10",
         "serve-static": "^1.16.2"
     },
+    "test": "your_test_command",
     "scripts": {
         "start": "nodemon index.js"
     },
