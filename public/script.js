@@ -10,7 +10,7 @@ async function onSubmit(e) {
     const dataFromForm = new FormData(e.target);
     const { email, dataCheckbox } = Object.fromEntries(dataFromForm);
 
-    const url = 'http://localhost:7001'
+    const url = 'https://newsletter-register.onrender.com/'
     try {
         if (email && dataCheckbox === "on") {
             const options = {
