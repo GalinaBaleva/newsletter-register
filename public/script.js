@@ -35,6 +35,9 @@ async function onSubmit(e) {
             window.location.href = redirect
 
         }
+
+        throw new Error(`Alle Felder sind Pflichtfelder`)
+
     } catch (error) {
         const output = form.elements["error"];
         output.value = error
